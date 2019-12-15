@@ -563,7 +563,7 @@ getChild(int processID){
 
 //getting number of system calls of a system call
 int
-getCount(int)
+getCount(int a)
 {
 /////////////////////////codes lots of codes:)
 return 23;
