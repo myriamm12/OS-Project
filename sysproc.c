@@ -91,13 +91,13 @@ sys_uptime(void)
 }
 
 int
-sys_getChild(int)
+sys_getChild(int processID) 
 {
-	return getChild();
+	return getChild(processID);
 }
 
-
-sys_getCount(int)
+int
+sys_getCount(int a)
 {
-	return getCount();
+	return getCount(a);
 }

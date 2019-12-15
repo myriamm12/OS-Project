@@ -6,7 +6,6 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
-#include "math.h"//check
 
 struct {
   struct spinlock lock;
@@ -540,19 +539,18 @@ procdump(void)
 //int processID
 //getting children's id of a process
 int
-getChild(int processID)
-{
-int a = 0,childID;
+getChild(int processID){
+  int a = 0,childID;
 
-struct proc *p;
-acquire(&ptable.lock);
-for(p = ptable.proc; p < &ptable.proc[NPROC];p++){
-	if(p->ppid == processID){
-	childID = p->pid;
-	a = a*100 + childID ;
-		
-}	
-return a;
+  struct proc *p;
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC];p++){
+    if(p-> parent -> pid == processID){
+    childID = p->pid;
+    a = a*100 + childID ;
+  }	
+  }
+  return a;
 }
 
 
@@ -563,7 +561,6 @@ return a;
 
 
 
-/*
 //getting number of system calls of a system call
 int
 getCount(int)
@@ -571,4 +568,3 @@ getCount(int)
 /////////////////////////codes lots of codes:)
 return 23;
 }
-*/
