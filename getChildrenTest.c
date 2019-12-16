@@ -16,13 +16,13 @@ fork();
 //getting currnet process ID
 id = getpid(); 
 
-printf(1,"the current  process ID is %d\n",getpid());
-printf(1,"the current  process PID is %d\n",getppid());
+printf(1,"the current  process ID is \n %d\n",getpid());
+printf(1,"the current  process PID is \n %d\n",getppid());
 
 
 childrenID = getChild(id);
 
-printf(1,"parent is %d and his children are %d\n",id,childrenID);
+printf(1,"parent is ** %d ** and his children are ** %d **\n",id,childrenID);
 
 exit();
 
