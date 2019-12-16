@@ -15,12 +15,20 @@ int fork2 = fork();
 
 //getting currnet process ID
 id = getpid(); 
-if (fork1 > 0 && fork2 > 0){
+if (fork1 < 0 ){
+    printf("fork1 unsuccessful")
+}
+else{
 printf(1,"the current  process ID is \n %d\n",getpid());
 printf(1,"the current  process PID is \n %d\n",getppid());
 }
-else 
-printf("fork system call was unsuccessful");
+if (fork2 < 0 ){
+    printf("fork2 unsuccessful")
+}else{
+printf(1,"the current  process ID is \n %d\n",getpid());
+printf(1,"the current  process PID is \n %d\n",getppid());
+}
+ //test getChild system call
 
 childrenID = getChild(id);
 printf(1,"parent is ** %d ** and his children are ** %d **\n",id,childrenID);

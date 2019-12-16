@@ -547,19 +547,11 @@ getChild(int processID){
   for(p = ptable.proc; p < &ptable.proc[NPROC];p++){
     if(p-> parent -> pid == processID){
     childID = p->pid;
-    a = a*100 + childID ;
+    a = a*100 + childID ; //handling 2digit ids
   }	
   }
   return a;
 }
-
-
-
-
-
-
-
-
 
 //getting number of system calls of a system call
 int
