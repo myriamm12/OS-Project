@@ -563,7 +563,6 @@ return parentProcessID ;
 
 
 //getting number of invokes of a system call
-extern int count[23];
 int
 getCount(int a)
 {
