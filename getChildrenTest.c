@@ -1,21 +1,29 @@
-#inlcude "user.h"
-#inlcude "types.h"
-#include "stat.h"
+//this simply calls getChild systemcall in xv6
+
+#include "user.h"
+#include "types.h"
 #include "fcntl.h"
+#include "stat.h"
 
 
-int main(int argc, char *argv[]) {
+int main(int argc, char *argv[]){
+
 int id;
+int childrenID;
 fork();
 fork();
 
 //getting currnet process ID
 id = getpid(); 
 
-printf("the current parent process ID is %d",id)
+printf(1,"the current  process ID is %d\n",getpid());
+printf(1,"the current  process PID is %d\n",getppid());
 
-printf("parent is %d and his children are %d",id,getChild(id));
-return 0;
 
+childrenID = getChild(id);
+
+printf(1,"parent is %d and his children are %d\n",id,childrenID);
+
+exit();
 
 }
