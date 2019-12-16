@@ -536,7 +536,6 @@ procdump(void)
 
 
 
-//int processID
 //getting children's id of a process
 int
 getChild(int processID){
@@ -564,12 +563,17 @@ return parentProcessID ;
 
 
 //getting number of invokes of a system call
+extern int count[23];
 int
 getCount(int a)
 {
-    int count[23];
-    if ()
-
-return 23;
+a--;
+  for(int i=0; i < 24;i++ ){
+    if (a == i){
+      return count[i];
+    }
+  }
+  else
+  return -1;
 }
 

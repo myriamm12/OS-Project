@@ -99,12 +99,13 @@ sys_getChild(int processID)
 int
 sys_getCount(int a)
 {
-  
 	return getCount(a);
 }
+
+
 int
 sys_getppid(void)
 {
-  
 	return getppid();
 }
+
