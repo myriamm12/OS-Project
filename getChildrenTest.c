@@ -16,14 +16,14 @@ int fork2 = fork();
 //getting currnet process ID
 id = getpid(); 
 if (fork1 < 0 ){
-    printf("fork1 unsuccessful")
+    printf(1,"fork1 unsuccessful");
 }
 else{
 printf(1,"the current  process ID is \n %d\n",getpid());
 printf(1,"the current  process PID is \n %d\n",getppid());
 }
 if (fork2 < 0 ){
-    printf("fork2 unsuccessful")
+    printf(1,"fork2 unsuccessful");
 }else{
 printf(1,"the current  process ID is \n %d\n",getpid());
 printf(1,"the current  process PID is \n %d\n",getppid());
