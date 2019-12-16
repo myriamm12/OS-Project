@@ -122,6 +122,7 @@ void            wakeup(void*);
 void            yield(void);
 int 		getChild(int);
 int 		getCount(int);
+int         getppid(void);
 // swtch.S
 void            swtch(struct context**, struct context*);
 

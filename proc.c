@@ -553,10 +553,23 @@ getChild(int processID){
   return a;
 }
 
-//getting number of system calls of a system call
+int
+getCount(void)
+{
+  
+int parentProcessID;
+parentProcessID = myproc()->parent->pid;
+return parentProcessID ;
+}
+
+
+//getting number of invokes of a system call
 int
 getCount(int a)
 {
-/////////////////////////codes lots of codes:)
+    int count[23];
+    if ()
+
 return 23;
 }
+

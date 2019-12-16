@@ -31,3 +31,5 @@ SYSCALL(sleep)
 SYSCALL(uptime)
 SYSCALL(getChild)
 SYSCALL(getCount)
+SYSCALL(getppid)
+
