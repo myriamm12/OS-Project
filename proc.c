@@ -7,6 +7,14 @@
 #include "proc.h"
 #include "spinlock.h"
 
+//input of waitForChild
+struct timeVariables{int creationTime; 
+                    int terminationTime;
+                    int sleepingTime;
+                    int readyTime; 
+                    int runningTime;
+}; 
+
 struct {
   struct spinlock lock;
   struct proc proc[NPROC];
@@ -604,3 +612,5 @@ return 1
 else
 return -1
 }
+
+
