@@ -323,10 +323,11 @@ void
 scheduler(void)
 {
   struct proc *p;
+  //add another struct proc *p1;
   struct cpu *c = mycpu();
   c->proc = 0;
   
-  for(;;){
+  for(;;){ ////infinite loop:)
     // Enable interrupts on this processor.
     sti();
 
@@ -342,8 +343,8 @@ scheduler(void)
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
-
-      swtch(&(c->scheduler), p->context);
+    ////Save curent regs in cpu -> secheduler
+      swtch(&(c->scheduler), p->context);///context switch happens here:)
       switchkvm();
 
       // Process is done running for now.
@@ -377,7 +378,7 @@ sched(void)
   if(readeflags()&FL_IF)
     panic("sched interruptible");
   intena = mycpu()->intena;
-  swtch(&p->context, mycpu()->scheduler);
+  swtch(&p->context, mycpu()->scheduler);////back to scheduler:)
   mycpu()->intena = intena;
 }
 
@@ -387,7 +388,7 @@ yield(void)
 {
   acquire(&ptable.lock);  //DOC: yieldlock
   myproc()->state = RUNNABLE;
-  sched();
+  sched(); //////////:)
   release(&ptable.lock);
 }
 
