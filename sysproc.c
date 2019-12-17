@@ -109,3 +109,9 @@ sys_getppid(void)
 	return getppid();
 }
 
+
+int
+sys_changePolicy(int b)
+{
+	return changePolicy(b);
+}

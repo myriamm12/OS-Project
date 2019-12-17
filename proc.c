@@ -346,7 +346,7 @@ scheduler(void)
     for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
       if(p1->state != RUNNABLE)
         continue;
-      if(highP-> priority > p1-> priority){
+      if(highP-> calculatedPriority > p1-> priority){
         highP = p1;
       }
 
@@ -590,3 +590,17 @@ a--;
   return -1;
 }
 
+//choosing the policy of scheduling algorithm
+//if 0(original algorithm)
+//if 1(modified original algorithm)
+//if 2(modified priority scheduling)
+int
+changePolicy(int b)
+{
+  flag = true //cherto pert just to run
+//if successful
+if(flag)
+return 1
+else
+return -1
+}

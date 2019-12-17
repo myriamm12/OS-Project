@@ -23,5 +23,7 @@
 #define SYS_getChild 22
 #define SYS_getCount 23
 #define SYS_getppid 24
+#define SYS_changePolicy 25
+
 
 

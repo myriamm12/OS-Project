@@ -131,6 +131,7 @@ static int (*syscalls[])(void) = {
 [SYS_getChild] sys_getChild,
 [SYS_getCount] sys_getCount,
 [SYS_getppid] sys_getppid,
+[SYS_changePolicy] sys_changePolicy,
 
 };
 
