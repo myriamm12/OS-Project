@@ -6,6 +6,7 @@
 #include "x86.h"
 #include "proc.h"
 #include "spinlock.h"
+#include "stddef.h"
 
 //input of waitForChild
 struct timeVariables{int creationTime; 
@@ -357,9 +358,6 @@ scheduler(void)
       if(highP-> calculatedPriority > p1-> priority){
         highP = p1;
       }
-
-
-
       p = highP;
       c->proc = p;
       switchuvm(p);
@@ -376,6 +374,7 @@ scheduler(void)
 
   }
 }
+
 
 // Enter scheduler.  Must hold only ptable.lock
 // and have changed proc->state. Saves and restores
@@ -575,7 +574,7 @@ getChild(int processID){
 }
 
 int
-getCount(void)
+getppid(void)
 {
   
 int parentProcessID;
@@ -591,26 +590,30 @@ getCount(int a)
 a--;
   for(int i=0; i < 24;i++ ){
     if (a == i){
-      return count[i];
+      return  myproc()->count[i];
     }
-  }
-  else
+     else
   return -1;
+  }
+ 
 }
 
 //choosing the policy of scheduling algorithm
 //if 0(original algorithm)
 //if 1(modified original algorithm)
 //if 2(modified priority scheduling)
+
+
 int
 changePolicy(int b)
 {
-  flag = true //cherto pert just to run
+  int flag;
+  flag = 1 ;//cherto pert just to run
 //if successful
-if(flag)
-return 1
-else
-return -1
+if(flag){
+    return 1;
+    }
+else{
+    return -1;
+  }
 }
-
-

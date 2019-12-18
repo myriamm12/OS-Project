@@ -47,7 +47,7 @@ trap(struct trapframe *tf)
   }
 
   switch(tf->trapno){
-  case T_IRQ0 + IRQ_TIMER:
+  case T_IRQ0 + IRQ_TIMER: 
     if(cpuid() == 0){
       acquire(&tickslock);
       ticks++;
