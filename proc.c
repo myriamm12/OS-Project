@@ -340,8 +340,6 @@ scheduler(void)
     // Enable interrupts on this processor.
     sti();
   struct proc *highP = NULL;////////
-
-
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
@@ -352,13 +350,15 @@ scheduler(void)
       // to release ptable.lock and then reacquire it
       // before jumping back to us.
       highP = p;
+      //choose the highest priority
     for(p1 = ptable.proc; p1 < &ptable.proc[NPROC]; p1++){
       if(p1->state != RUNNABLE)
         continue;
-      if(highP-> calculatedPriority > p1-> priority){
+      if(highP-> calculatedPriority > p1-> priority)
         highP = p1;
       }
       p = highP;
+
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
@@ -588,14 +588,13 @@ int
 getCount(int a)
 {
 a--;
-  for(int i=0; i < 24;i++ ){
-    if (a == i){
-      return  myproc()->count[i];
-    }
-     else
-  return -1;
-  }
- 
+  //for(int i=0; i < 24;i++ ){
+    //if (a == i){
+      //return  myproc()->count[i];
+    //}
+   
+  //}
+ return  myproc()->count[a];
 }
 
 //choosing the policy of scheduling algorithm
