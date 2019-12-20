@@ -1,0 +1,1 @@
+////fork 20times peont pid;id 1000 times

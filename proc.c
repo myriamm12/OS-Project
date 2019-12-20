@@ -99,6 +99,7 @@ found:
   p->pid = nextpid++;
   p->priority = 5; //set the default priority to 5(lowest priority)
   p->calculatedPriority = 0; //the new process calculatedPriority is 0(highest priority)
+ proc->creationTime = ticks;
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -228,6 +229,7 @@ fork(void)
 
   release(&ptable.lock);
 
+  curproc->countSys[1]++;
   return pid;
 }
 
@@ -273,8 +275,11 @@ exit(void)
 
   // Jump into the scheduler, never to return.
   curproc->state = ZOMBIE;
+
   sched();
   panic("zombie exit");
+  curproc->countSys[2]++;
+
 }
 
 // Wait for a child process to exit and return its pid.
@@ -319,6 +324,7 @@ wait(void)
     // Wait for children to exit.  (See wakeup1 call in proc_exit.)
     sleep(curproc, &ptable.lock);  //DOC: wait-sleep
   }
+  curproc->countSys[3]++;
 }
 
 //PAGEBREAK: 42
@@ -471,6 +477,7 @@ sleep(void *chan, struct spinlock *lk)
     release(&ptable.lock);
     acquire(lk);
   }
+  p->countSys[13]++;
 }
 
 //PAGEBREAK!
@@ -515,6 +522,7 @@ kill(int pid)
     }
   }
   release(&ptable.lock);
+  myproc()->countSys[6]++;
   return -1;
 }
 
@@ -571,6 +579,7 @@ getChild(int processID){
     a = a*100 + childID ; //handling upto 2digit ids
   }	
   }
+  p->countSys[22]++;
   return a;
 }
 
@@ -581,6 +590,7 @@ getppid(void)
 struct proc *p =  myproc();
 int parentProcessID;
 parentProcessID = p->parent->pid;
+p->countSys[24]++;
 return parentProcessID ;
 }
 
@@ -597,7 +607,8 @@ struct proc *p =  myproc();
     //}
    
   //}
- return  p->count[a];
+  p->countSys[23]++;
+ return  p->countSys[a];
 }
 
 //choosing the policy of scheduling algorithm
@@ -616,6 +627,8 @@ if(flag){
 else{
     return -1;
   }
+  p->countSys[25]++;
+
 }
 
 
@@ -624,8 +637,8 @@ changePriority(int x)
 {
 
 struct proc *p =  myproc();
-p -> calculatedPriority = 
+p -> calculatedPriority = calculatedPriority + x;
 
-calculatedPriority += 
+p->countSys[26]++;
 
 }

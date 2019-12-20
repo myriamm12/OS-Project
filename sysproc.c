@@ -39,6 +39,7 @@ sys_kill(void)
 int
 sys_getpid(void)
 {
+  myproc()->countSys[11]++;
   return myproc()->pid;
 }
 
@@ -87,13 +88,16 @@ sys_uptime(void)
   acquire(&tickslock);
   xticks = ticks;
   release(&tickslock);
+  myproc()->countSys[14]++;
   return xticks;
 }
 
 int
 sys_getChild(int processID) 
 {
+ // myproc()->countSys++;
 	return getChild(processID);
+
 }
 
 int
