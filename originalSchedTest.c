@@ -19,7 +19,7 @@ if(id<0){
     exit();
 }
 else if(id==0){ //child
-    printf(1,"[process %d] : [print number %d]",getpid(id),i);
+    printf(1,"[process %d] : [print number %d]",getpid(),i);
 }
 else{//parent
      wait();
