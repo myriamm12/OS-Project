@@ -11,7 +11,7 @@
 extern int  policy;
 
 //input of waitForChild
-struct timeVariables{int creationTime; 
+extern struct timeVariables{int creationTime; 
                     int terminationTime;
                     int sleepingTime;
                     int readyTime; 
@@ -640,9 +640,19 @@ int
 changePriority(int x)
 {
 
-struct proc *p =  myproc();
-p -> calculatedPriority = calculatedPriority + x;
+  int newPriority;
+  struct proc *p =  myproc();
 
-p->countSys[26]++;
+  p->countSys[26]++;
+
+  acquire(&ptable.lock);
+  for(p = ptable.proc; p < &ptable.proc[NPROC];p++){
+     if(p->state == RUNNING){ //if theres a running process find it and update it calculated priority
+     newPriority = p->priority + x; 
+     p->calculatedPriority = newPriority;
+         return 1;	//success
+    }
+    else return -1; //unsuccessful
+  }
 
 }
