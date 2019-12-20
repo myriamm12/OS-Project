@@ -9,14 +9,15 @@
 #include "stddef.h"
 
 extern int  policy;
+//extern int policyState(void);
 
 //input of waitForChild
-extern struct timeVariables{int creationTime; 
+/*extern struct timeVariables{int creationTime; 
                     int terminationTime;
                     int sleepingTime;
                     int readyTime; 
                     int runningTime;
-}; 
+}; */
 
 struct {
   struct spinlock lock;
@@ -340,6 +341,7 @@ wait(void)
 void
 scheduler(void)
 {
+  if(policy == 1){///////////modified scheduler
   struct proc *p;
   struct proc *p1;//added another struct proc *p1
   struct cpu *c = mycpu();
@@ -383,6 +385,41 @@ scheduler(void)
     release(&ptable.lock);
 
   }
+  }/////////////
+  else if(policy == 0){///////////originial scheduler
+     struct proc *p;
+  struct cpu *c = mycpu();
+  c->proc = 0;
+  
+  for(;;){
+    // Enable interrupts on this processor.
+    sti();
+
+    // Loop over process table looking for process to run.
+    acquire(&ptable.lock);
+    for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
+      if(p->state != RUNNABLE)
+        continue;
+
+      // Switch to chosen process.  It is the process's job
+      // to release ptable.lock and then reacquire it
+      // before jumping back to us.
+      c->proc = p;
+      switchuvm(p);
+      p->state = RUNNING;
+
+      swtch(&(c->scheduler), p->context);
+      switchkvm();
+
+      // Process is done running for now.
+      // It should have changed its p->state before coming back.
+      c->proc = 0;
+    }
+    release(&ptable.lock);
+
+}
+  }///////////////////////
+
 }
 
 
@@ -493,10 +530,10 @@ wakeup1(void *chan)
   struct proc *p;
 
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
-    if(p->state == SLEEPING && p->chan == chan)
+    if(p->state == SLEEPING && p->chan == chan){
       p->state = RUNNABLE;
       p->readyTime = ticks;
-
+    }
 }
 
 // Wake up all processes sleeping on chan.
@@ -614,7 +651,11 @@ struct proc *p =  myproc();
    
   //}
   p->countSys[23]++;
- return  p->countSys[a];
+  int i;
+  for(i = 0; i < 27 ;i++){
+  cprintf("this process has envoked systemCall number %d for %d times\n",i,p->countSys[a]);
+  }
+ return 0;
 }
 
 //choosing the policy of scheduling algorithm
@@ -627,19 +668,22 @@ changePolicy(int chosenPolicy)
 
 struct proc *p =  myproc();
 if(chosenPolicy==0 || chosenPolicy==1 || chosenPolicy==2){//valid values
-policy = chosenPolicy;
-return 1;
+policy = chosenPolicy;  //policy is extern var
 }else{
     return -1;
 }
   p->countSys[25]++;
 }
 
+int policyState(){
+  return policy;
+}
+
 
 int
 changePriority(int x)
 {
-
+  int flag = 0;
   int newPriority;
   struct proc *p =  myproc();
 
@@ -650,9 +694,13 @@ changePriority(int x)
      if(p->state == RUNNING){ //if theres a running process find it and update it calculated priority
      newPriority = p->priority + x; 
      p->calculatedPriority = newPriority;
-         return 1;	//success
+        flag = 1;
     }
-    else return -1; //unsuccessful
   }
+  if(flag==1)
+    return 1;
+  else
+    return -1;
+  
 
 }

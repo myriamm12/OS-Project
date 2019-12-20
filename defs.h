@@ -124,6 +124,7 @@ int 		getChild(int);
 int 		getCount(int);
 int         getppid(void);
 int         changePolicy(int);
+int         policyState(void);//used in trap.c to distinguish timer policy
 int         changePriority(int);
 
 

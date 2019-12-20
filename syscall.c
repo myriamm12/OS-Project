@@ -105,6 +105,9 @@ extern int sys_write(void);
 extern int sys_uptime(void);
 extern int sys_getChild(void);
 extern int sys_getCount(void);
+extern int sys_getppid(void);
+extern int SYS_changePolicy(void);
+extern int sys_changePriority(void);
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
