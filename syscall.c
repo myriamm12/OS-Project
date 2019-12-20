@@ -132,10 +132,12 @@ static int (*syscalls[])(void) = {
 [SYS_getCount] sys_getCount,
 [SYS_getppid] sys_getppid,
 [SYS_changePolicy] sys_changePolicy,
+[SYS_changePriority] sys_changePriority,
+
 
 };
 
-extern int count[23];////
+extern int countSys[27];////
 void
 syscall(void)
 {
@@ -145,7 +147,7 @@ syscall(void)
   num = curproc->tf->eax;
   if(num > 0 && num < NELEM(syscalls) && syscalls[num]) {
     curproc->tf->eax = syscalls[num]();
-    curproc->count[num]++;///
+    curproc->countSys[num]++;///
   } else {
     cprintf("%d %s: unknown sys call %d\n",
             curproc->pid, curproc->name, num);

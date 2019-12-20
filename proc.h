@@ -36,13 +36,6 @@ enum procstate { UNUSED, EMBRYO, SLEEPING, RUNNABLE, RUNNING, ZOMBIE };
 
 // Per-process state
 struct proc {
-  int priority;
-  int calculatedPriority;
-  int creationTime;
-  int terminationTime;
-  int sleepingTime;
-  int readyTime;
-  int runningTime;
   uint sz;                     // Size of process memory (bytes)
   pde_t* pgdir;                // Page table
   char *kstack;                // Bottom of kernel stack for this process
@@ -56,7 +49,14 @@ struct proc {
   struct file *ofile[NOFILE];  // Open files
   struct inode *cwd;           // Current directory
   char name[16];               // Process name (debugging)
-  int count[25];
+  int countSys[27];           ///each process can invoke any of the 27sysCalls(used for Q2.2)
+  int priority;
+  int calculatedPriority;
+  int creationTime;         
+  int terminationTime;
+  int sleepingTime;
+  int readyTime;
+  int runningTime;
   };
 
 // Process memory is laid out contiguously, low addresses first:

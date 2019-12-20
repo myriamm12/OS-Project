@@ -115,3 +115,10 @@ sys_changePolicy(int b)
 {
 	return changePolicy(b);
 }
+
+
+int
+sys_changePriority(int b)
+{
+	return changePriority(b);
+}

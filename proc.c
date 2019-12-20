@@ -18,7 +18,7 @@ struct timeVariables{int creationTime;
 
 struct {
   struct spinlock lock;
-  struct proc proc[NPROC];
+  struct proc proc[NPROC]; //array of processes MAXimum NPROC ta
 } ptable;
 
 static struct proc *initproc;
@@ -97,7 +97,8 @@ allocproc(void)
 found:
   p->state = EMBRYO;
   p->pid = nextpid++;
-  p->priority = 5;///check
+  p->priority = 5; //set the default priority to 5(lowest priority)
+  p->calculatedPriority = 0; //the new process calculatedPriority is 0(highest priority)
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -339,7 +340,7 @@ scheduler(void)
   for(;;){ ////infinite loop:)
     // Enable interrupts on this processor.
     sti();
-  struct proc *highP = NULL;////////
+  struct proc *highP = NULL;///points to highest priority process
     // Loop over process table looking for process to run.
     acquire(&ptable.lock);
     for(p = ptable.proc; p < &ptable.proc[NPROC]; p++){
@@ -557,28 +558,29 @@ procdump(void)
 
 
 
-//getting children's id of a process
+//getting children's ids of a process
 int
 getChild(int processID){
   int a = 0,childID;
 
-  struct proc *p;
+  struct proc *p =  myproc();
   acquire(&ptable.lock);
   for(p = ptable.proc; p < &ptable.proc[NPROC];p++){
     if(p-> parent -> pid == processID){
     childID = p->pid;
-    a = a*100 + childID ; //handling 2digit ids
+    a = a*100 + childID ; //handling upto 2digit ids
   }	
   }
   return a;
 }
 
+//getting parent PID
 int
 getppid(void)
 {
-  
+struct proc *p =  myproc();
 int parentProcessID;
-parentProcessID = myproc()->parent->pid;
+parentProcessID = p->parent->pid;
 return parentProcessID ;
 }
 
@@ -588,21 +590,20 @@ int
 getCount(int a)
 {
 a--;
-  //for(int i=0; i < 24;i++ ){
+struct proc *p =  myproc();
+  //for(int i=0; i < 27;i++ ){
     //if (a == i){
       //return  myproc()->count[i];
     //}
    
   //}
- return  myproc()->count[a];
+ return  p->count[a];
 }
 
 //choosing the policy of scheduling algorithm
 //if 0(original algorithm)
 //if 1(modified original algorithm)
 //if 2(modified priority scheduling)
-
-
 int
 changePolicy(int b)
 {
@@ -615,4 +616,16 @@ if(flag){
 else{
     return -1;
   }
+}
+
+
+int
+changePriority(int x)
+{
+
+struct proc *p =  myproc();
+p -> calculatedPriority = 
+
+calculatedPriority += 
+
 }
