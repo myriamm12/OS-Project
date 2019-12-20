@@ -373,7 +373,7 @@ scheduler(void)
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
-      p->runningTime = ticks;
+      p->runningTime++;
     ////Save curent regs in cpu -> secheduler
       swtch(&(c->scheduler), p->context);///context switch happens here:)
       switchkvm();
@@ -419,7 +419,6 @@ scheduler(void)
 
 }
   }///////////////////////
-
 }
 
 
@@ -506,7 +505,7 @@ sleep(void *chan, struct spinlock *lk)
   // Go to sleep.
   p->chan = chan;
   p->state = SLEEPING;
-  p->sleepingTime = ticks;
+  p->sleepingTime++;
 
   sched();
 
@@ -532,7 +531,7 @@ wakeup1(void *chan)
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     if(p->state == SLEEPING && p->chan == chan){
       p->state = RUNNABLE;
-      p->readyTime = ticks;
+      p->readyTime++;
     }
 }
 
@@ -665,14 +664,17 @@ struct proc *p =  myproc();
 int
 changePolicy(int chosenPolicy)
 {
-
+int flag = 0;
 struct proc *p =  myproc();
 if(chosenPolicy==0 || chosenPolicy==1 || chosenPolicy==2){//valid values
 policy = chosenPolicy;  //policy is extern var
-}else{
-    return -1;
+flag = 1;
 }
   p->countSys[25]++;
+  if(flag == 1)
+  return 1;//success
+  else
+  return -1;//unsuccessful
 }
 
 int policyState(){
@@ -703,4 +705,18 @@ changePriority(int x)
     return -1;
   
 
+}
+
+
+int
+calculateTime(void){
+  struct proc *p =  myproc();
+  int TT = p->terminationTime - p->creationTime;
+  int WT = p->readyTime;// process was ready but according to scheduler policy cpu wasnt given to it
+  int CBT = p->runningTime;
+
+  cprintf("Turn Around Time: %d\n",TT);
+  cprintf("Waiting Time: %d\n",WT);
+  cprintf("CBT: %d\n",CBT);
+  return p->pid;
 }

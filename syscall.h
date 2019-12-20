@@ -25,6 +25,7 @@
 #define SYS_getppid 24
 #define SYS_changePolicy 25
 #define SYS_changePriority 26
+#define SYS_calculateTime 27
 
 
 

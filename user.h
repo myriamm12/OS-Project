@@ -28,6 +28,7 @@ int getCount(int);
 int getppid(void);
 int changePolicy(int);
 int changePriority(int);
+int calculateTime(int);
 
 // ulib.c
 int stat(const char*, struct stat*);

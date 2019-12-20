@@ -126,3 +126,8 @@ sys_changePriority(int b)
 {
 	return changePriority(b);
 }
+int
+sys_calculateTime(int b)
+{
+	return calculateTime(b);
+}

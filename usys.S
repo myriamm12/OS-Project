@@ -34,5 +34,5 @@ SYSCALL(getCount)
 SYSCALL(getppid)
 SYSCALL(changePolicy)
 SYSCALL(changePriority)
-
+SYSCALL(calculateTime)
 

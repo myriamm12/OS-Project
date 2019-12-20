@@ -108,6 +108,8 @@ extern int sys_getCount(void);
 extern int sys_getppid(void);
 extern int SYS_changePolicy(void);
 extern int sys_changePriority(void);
+extern int sys_calculateTime(void);
+
 
 static int (*syscalls[])(void) = {
 [SYS_fork]    sys_fork,
@@ -136,6 +138,8 @@ static int (*syscalls[])(void) = {
 [SYS_getppid] sys_getppid,
 [SYS_changePolicy] sys_changePolicy,
 [SYS_changePriority] sys_changePriority,
+[SYS_calculateTime] sys_calculateTime,
+
 
 
 };
