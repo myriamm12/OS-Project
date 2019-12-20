@@ -8,6 +8,8 @@
 #include "spinlock.h"
 #include "stddef.h"
 
+extern int  policy;
+
 //input of waitForChild
 struct timeVariables{int creationTime; 
                     int terminationTime;
@@ -99,7 +101,7 @@ found:
   p->pid = nextpid++;
   p->priority = 5; //set the default priority to 5(lowest priority)
   p->calculatedPriority = 0; //the new process calculatedPriority is 0(highest priority)
- proc->creationTime = ticks;
+  p->creationTime = ticks; //process created
   release(&ptable.lock);
 
   // Allocate kernel stack.
@@ -274,8 +276,8 @@ exit(void)
   }
 
   // Jump into the scheduler, never to return.
+  curproc->terminationTime = ticks; //termination time is not affected while state is zombie
   curproc->state = ZOMBIE;
-
   sched();
   panic("zombie exit");
   curproc->countSys[2]++;
@@ -369,6 +371,7 @@ scheduler(void)
       c->proc = p;
       switchuvm(p);
       p->state = RUNNING;
+      p->runningTime = ticks;
     ////Save curent regs in cpu -> secheduler
       swtch(&(c->scheduler), p->context);///context switch happens here:)
       switchkvm();
@@ -466,6 +469,7 @@ sleep(void *chan, struct spinlock *lk)
   // Go to sleep.
   p->chan = chan;
   p->state = SLEEPING;
+  p->sleepingTime = ticks;
 
   sched();
 
@@ -491,6 +495,8 @@ wakeup1(void *chan)
   for(p = ptable.proc; p < &ptable.proc[NPROC]; p++)
     if(p->state == SLEEPING && p->chan == chan)
       p->state = RUNNABLE;
+      p->readyTime = ticks;
+
 }
 
 // Wake up all processes sleeping on chan.
@@ -616,19 +622,17 @@ struct proc *p =  myproc();
 //if 1(modified original algorithm)
 //if 2(modified priority scheduling)
 int
-changePolicy(int b)
+changePolicy(int chosenPolicy)
 {
-  int flag;
-  flag = 1 ;//cherto pert just to run
-//if successful
-if(flag){
-    return 1;
-    }
-else{
-    return -1;
-  }
-  p->countSys[25]++;
 
+struct proc *p =  myproc();
+if(chosenPolicy==0 || chosenPolicy==1 || chosenPolicy==2){//valid values
+policy = chosenPolicy;
+return 1;
+}else{
+    return -1;
+}
+  p->countSys[25]++;
 }
 
 
